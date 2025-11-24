@@ -102,7 +102,7 @@ export default function ENTHeroSection() {
               <div className="relative bg-white p-3 rounded-3xl shadow-2xl">
                 <div className="relative rounded-2xl overflow-hidden">
                   <img 
-                    src="/company data/ENT website/Home page.png" 
+                    src="/company data/ENT website/doctorimage1.jpeg" 
                     alt="ENT Specialist" 
                     className="w-full h-72 md:h-96 object-cover"
                   />
