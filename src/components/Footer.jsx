@@ -27,44 +27,52 @@ export default function Footer({ handleBookAppointment }) {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-6 pb-8">
         {/* Top Two Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 px-2 sm:px-6 lg:px-16 pt-6 mb-8">
-          {/* Location */}
-          <div className="group bg-white/8 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/20 shadow-lg hover:bg-white/12 transform hover:-translate-y-1 transition-all duration-400">
-            <h3 className="text-xl md:text-2xl font-bold mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-              Our Location
-            </h3>
+     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 px-2 sm:px-6 lg:px-16 pt-6 mb-8">
 
-            <p className="text-xs sm:text-sm md:text-base mb-4 text-blue-100 group-hover:text-white transition-colors leading-relaxed">
-              No 701/702, 7th floor, WESTWOOD ESTATES,
-              <br />
-              Kaspate Wasti, Opposite Mont Vert Tropez Road,
-              <br />
-              Society, Wakod, Pimpri-Chinchwad, Maharashtra 411-057
-            </p>
+  {/* Location */}
+  <div className="group bg-white/8 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/20 shadow-lg hover:bg-white/12 transform hover:-translate-y-1 transition-all duration-400 flex flex-col justify-between">
 
-            <button className="w-full md:w-auto bg-gradient-to-r from-white to-blue-50 text-blue-700 font-bold px-5 py-3 rounded-xl hover:from-blue-500 hover:to-blue-600 hover:text-white transition-all duration-300 text-xs sm:text-sm uppercase shadow-md hover:shadow-xl">
-              FIND OUR LOCATION
-            </button>
-          </div>
+    <div>
+      <h3 className="text-xl md:text-2xl font-bold mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+        Our Location
+      </h3>
 
-          {/* Appointment */}
-          <div className="group bg-white/8 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/20 shadow-lg hover:bg-white/12 transform hover:-translate-y-1 transition-all duration-400">
-            <h3 className="text-xl md:text-2xl font-bold mb-4 bg-gradient-to-r from-white to-green-200 bg-clip-text text-transparent">
-              Appointment
-            </h3>
+      <p className="text-xs sm:text-sm md:text-base mb-4 text-blue-100 group-hover:text-white transition-colors leading-relaxed">
+        No 701/702, 7th floor, WESTWOOD ESTATES,
+        <br />
+        Kaspate Wasti, Opposite Mont Vert Tropez Road,
+        <br />
+        Society, Wakod, Pimpri-Chinchwad, Maharashtra 411-057
+      </p>
+    </div>
 
-            <p className="text-xs sm:text-sm md:text-base mb-4 text-blue-100 group-hover:text-white transition-colors">
-              Make your appointment online. Quick, easy, and convenient booking available 24/7.
-            </p>
+    <button className="w-1/2 bg-gradient-to-r from-white to-blue-50 text-blue-700 font-bold px-5 py-3 rounded-xl hover:from-blue-500 hover:to-blue-600 hover:text-white transition-all duration-300 text-xs sm:text-sm uppercase shadow-md hover:shadow-xl">
+      FIND OUR LOCATION
+    </button>
+  </div>
 
-            <button
-              onClick={handleBookAppointment}
-              className="w-full md:w-auto bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold px-5 py-3 rounded-xl text-xs sm:text-sm uppercase shadow-md hover:shadow-xl transition-all duration-300"
-            >
-              BOOK AN APPOINTMENT
-            </button>
-          </div>
-        </div>
+  {/* Appointment */}
+  <div className="group bg-white/8 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/20 shadow-lg hover:bg-white/12 transform hover:-translate-y-1 transition-all duration-400 flex flex-col justify-between">
+
+    <div>
+      <h3 className="text-xl md:text-2xl font-bold mb-4 bg-gradient-to-r from-white to-green-200 bg-clip-text text-transparent">
+        Appointment
+      </h3>
+
+      <p className="text-xs sm:text-sm md:text-base mb-4 text-blue-100 group-hover:text-white transition-colors">
+        Make your appointment online. Quick, easy, and convenient booking available 24/7.
+      </p>
+    </div>
+
+    <button
+      onClick={handleBookAppointment}
+      className="w-1/2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold px-5 py-3 rounded-xl text-xs sm:text-sm uppercase shadow-md hover:shadow-xl transition-all duration-300"
+    >
+      BOOK AN APPOINTMENT
+    </button>
+  </div>
+</div>
+
 
         {/* Middle Three Columns */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 px-2 sm:px-6 lg:px-12 xl:px-16 py-6 md:py-10">
