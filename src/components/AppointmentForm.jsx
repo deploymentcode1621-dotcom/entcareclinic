@@ -1,31 +1,127 @@
-import React from 'react';
-import { Check } from 'lucide-react';
+import React, { useState } from "react";
+import { Check } from "lucide-react";
+import { bookAppointment } from "../apis/appointment";
 
-export default function AppointmentForm({
-  formData,
-  errors,
-  isSubmitted,
-  isSubmitting,
-  handleChange,
-  handleSubmit
-}) {
+export default function AppointmentPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    sex: "",
+    phone: "",
+    date: "",
+    service: "",
+  });
+
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // ---------------- VALIDATION ----------------
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Mobile number is required";
+    } else if (!/^[0-9]{10}$/.test(formData.phone)) {
+      newErrors.phone = "Enter a valid 10-digit number";
+    }
+    if (!formData.date) newErrors.date = "Select appointment date";
+    if (!formData.service) newErrors.service = "Select service";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // ---------------- INPUT CHANGE ----------------
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    // Clear error for this field immediately
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  // ---------------- SUBMIT FORM (OPTIMIZED) ----------------
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate first
+    if (!validate()) return;
+
+    // Set submitting state immediately
+    setIsSubmitting(true);
+
+    // Prepare payload (avoid unnecessary object recreation)
+    const payload = {
+      name: formData.name.trim(),
+      age: formData.age,
+      sex: formData.sex,
+      phone: formData.phone.trim(),
+      date: formData.date,
+      service: formData.service,
+    };
+
+    try {
+      // Send request immediately without any delays
+      const res = await bookAppointment(payload);
+
+      // Handle success
+      if (res.success) {
+        setIsSubmitted(true);
+        
+        // Reset form after showing success message
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            name: "",
+            age: "",
+            sex: "",
+            phone: "",
+            date: "",
+            service: "",
+          });
+          setErrors({});
+        }, 2500);
+      } else {
+        // Handle unsuccessful response
+        alert(res.message || "Failed to book appointment");
+      }
+    } catch (error) {
+      console.error("Appointment booking error:", error);
+      
+      // Show error message to user
+      const errorMsg = error.response?.data?.message || 
+                       error.message || 
+                       "Failed to book appointment. Please try again.";
+      alert(errorMsg);
+    } finally {
+      // Always reset submitting state
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <section id="appointment" className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 md:py-16 lg:py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 ">
+    <section
+      id="appointment"
+      className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 md:py-16 lg:py-20"
+    >
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 items-center">
-          
-          {/* Left Side - Doctor Image (2 columns on large screens) */}
+
+          {/* LEFT SIDE IMAGE */}
           <div className="lg:col-span-2 flex flex-col items-center justify-center">
             <div className="relative">
-              {/* Doctor Image Container */}
               <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72">
                 <img
                   src="/company data/ENT website/content.png"
                   alt="Doctor"
-                  className="w-full h-full object-cover rounded-2xl lg:rounded-3xl shadow-xl"
+                  className="w-full h-full object-cover rounded-2xl shadow-xl"
                 />
                 {/* Decorative gradient overlay */}
-                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-blue-600/20 to-transparent rounded-b-2xl lg:rounded-b-3xl"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-blue-600/20 to-transparent rounded-b-2xl"></div>
               </div>
               
               {/* Medical Icon Badge */}
@@ -38,7 +134,7 @@ export default function AppointmentForm({
               </div>
             </div>
             
-            {/* Doctor Info - Hidden on mobile */}
+            {/* Doctor Info */}
             <div className="text-center mt-5 hidden lg:block">
               <h3 className="text-xl font-bold text-gray-800">Dr. Swati Kodur (Patil)</h3>
               <p className="text-purple-600 font-medium mt-1 text-sm">ENT Specialist</p>
@@ -48,14 +144,14 @@ export default function AppointmentForm({
             </div>
           </div>
 
-          {/* Right Side - Appointment Form (3 columns on large screens) */}
+          {/* RIGHT SIDE FORM */}
           <div className="lg:col-span-3 relative p-5 sm:p-6 md:p-7 rounded-2xl lg:rounded-3xl bg-white shadow-xl max-w-lg lg:max-w-none mx-auto w-full overflow-hidden">
             
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-24 h-24 lg:w-32 lg:h-32 bg-purple-100 rounded-full -mr-12 lg:-mr-16 -mt-12 lg:-mt-16 opacity-50"></div>
             <div className="absolute bottom-0 left-0 w-20 h-20 lg:w-24 lg:h-24 bg-blue-100 rounded-full -ml-10 lg:-ml-12 -mb-10 lg:-mb-12 opacity-50"></div>
 
-            {/* Success Animation */}
+            {/* SUCCESS MESSAGE */}
             {isSubmitted && (
               <div className="absolute inset-0 bg-white z-50 flex flex-col items-center justify-center rounded-2xl lg:rounded-3xl">
                 <div className="relative">
@@ -64,7 +160,9 @@ export default function AppointmentForm({
                   </div>
                   <div className="absolute inset-0 w-20 h-20 bg-green-400 rounded-full animate-ping opacity-75"></div>
                 </div>
-                <h3 className="mt-5 text-xl font-bold text-gray-800">Appointment Booked!</h3>
+                <h3 className="mt-5 text-xl font-bold text-gray-800">
+                  Appointment Booked!
+                </h3>
                 <p className="mt-2 text-sm text-gray-600">We'll contact you soon</p>
               </div>
             )}
@@ -79,27 +177,27 @@ export default function AppointmentForm({
               </div>
             </div>
 
-            {/* Form */}
+            {/* FORM */}
             <div className="relative space-y-3 md:space-y-4">
-              {/* Name Field */}
+
+              {/* NAME */}
               <div>
                 <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
                   Name <span className="text-red-500">*</span>
                 </label>
                 <input
-                  type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter your full name"
-                  className={`w-full border-2 ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-2 sm:py-2.5 text-sm focus:outline-none focus:border-purple-500 transition-colors`}
+                  className={`w-full border-2 ${
+                    errors.name ? "border-red-500" : "border-gray-300"
+                  } rounded-lg px-3 py-2 sm:py-2.5 text-sm focus:outline-none focus:border-purple-500 transition-colors`}
                 />
-                {errors.name && (
-                  <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.name}</p>
-                )}
+                {errors.name && <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.name}</p>}
               </div>
 
-              {/* Age and Sex Fields */}
+              {/* AGE + SEX */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
@@ -135,7 +233,7 @@ export default function AppointmentForm({
                 </div>
               </div>
 
-              {/* Mobile Number Field */}
+              {/* PHONE */}
               <div>
                 <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
                   Mobile Number <span className="text-red-500">*</span>
@@ -147,14 +245,14 @@ export default function AppointmentForm({
                   onChange={handleChange}
                   placeholder="10-digit mobile number"
                   maxLength="10"
-                  className={`w-full border-2 ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-2 sm:py-2.5 text-sm focus:outline-none focus:border-purple-500 transition-colors`}
+                  className={`w-full border-2 ${
+                    errors.phone ? "border-red-500" : "border-gray-300"
+                  } rounded-lg px-3 py-2 sm:py-2.5 text-sm focus:outline-none focus:border-purple-500 transition-colors`}
                 />
-                {errors.phone && (
-                  <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.phone}</p>
-                )}
+                {errors.phone && <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.phone}</p>}
               </div>
 
-              {/* Date Field */}
+              {/* DATE */}
               <div>
                 <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
                   Appointment Date <span className="text-red-500">*</span>
@@ -164,14 +262,15 @@ export default function AppointmentForm({
                   name="date"
                   value={formData.date}
                   onChange={handleChange}
-                  className={`w-full border-2 ${errors.date ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-2 sm:py-2.5 text-sm focus:outline-none focus:border-purple-500 transition-colors`}
+                  min={new Date().toISOString().split('T')[0]}
+                  className={`w-full border-2 ${
+                    errors.date ? "border-red-500" : "border-gray-300"
+                  } rounded-lg px-3 py-2 sm:py-2.5 text-sm focus:outline-none focus:border-purple-500 transition-colors`}
                 />
-                {errors.date && (
-                  <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.date}</p>
-                )}
+                {errors.date && <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.date}</p>}
               </div>
 
-              {/* Service Dropdown */}
+              {/* SERVICE */}
               <div>
                 <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
                   Service <span className="text-red-500">*</span>
@@ -180,7 +279,9 @@ export default function AppointmentForm({
                   name="service"
                   value={formData.service}
                   onChange={handleChange}
-                  className={`w-full border-2 ${errors.service ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-2 sm:py-2.5 text-sm focus:outline-none focus:border-purple-500 transition-colors bg-white`}
+                  className={`w-full border-2 ${
+                    errors.service ? "border-red-500" : "border-gray-300"
+                  } rounded-lg px-3 py-2 sm:py-2.5 text-sm focus:outline-none focus:border-purple-500 transition-colors bg-white`}
                 >
                   <option value="">Select a service</option>
                   <option value="Ear">Ear</option>
@@ -188,25 +289,23 @@ export default function AppointmentForm({
                   <option value="Throat">Throat</option>
                   <option value="Vertigo">Vertigo</option>
                 </select>
-                {errors.service && (
-                  <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.service}</p>
-                )}
+                {errors.service && <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.service}</p>}
               </div>
 
-              {/* Submit Button */}
+              {/* SUBMIT BUTTON */}
               <button
                 type="button"
                 onClick={handleSubmit}
                 disabled={isSubmitting}
                 className={`w-full py-2.5 sm:py-3 rounded-lg font-semibold text-white text-sm sm:text-base transition-all duration-300 ${
                   isSubmitting
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-purple-700 to-blue-600 hover:shadow-lg hover:scale-[1.02] active:scale-95'
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-purple-700 to-blue-600 hover:shadow-lg hover:scale-[1.02] active:scale-95"
                 }`}
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">
-                    <svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
+                    <svg className="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-2" viewBox="0 0 24 24">
                       <circle
                         className="opacity-25"
                         cx="12"
@@ -225,7 +324,7 @@ export default function AppointmentForm({
                     Submitting...
                   </span>
                 ) : (
-                  'BOOK APPOINTMENT'
+                  "BOOK APPOINTMENT"
                 )}
               </button>
 

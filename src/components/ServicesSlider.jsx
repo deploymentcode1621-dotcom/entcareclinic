@@ -56,15 +56,17 @@ export default function ServicesSlider({ services, currentSlide, slidesPerView, 
                         className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
                       />
                     </div>
-                    <h3 className="text-base md:text-lg font-bold bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent px-2 min-h-[60px] flex items-center justify-center transition-all duration-300 group-hover:scale-105">
-                      {service.title}
-                      {service.subtitle && (
-                        <>
-                          <br />
-                          <span className="text-sm md:text-base">{service.subtitle}</span>
-                        </>
-                      )}
-                    </h3>
+                <h3 className="text-base md:text-lg font-bold bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent px-2 min-h-[60px] flex flex-col items-center justify-center transition-all duration-300 group-hover:scale-105">
+  <span>{service.title}</span>
+
+  {service.subtitle && (
+    <span className="text-black text-sm md:text-base font-semibold mt-1">
+      {service.subtitle}
+    </span>
+  )}
+</h3>
+
+
                   </div>
                 </div>
               ))}

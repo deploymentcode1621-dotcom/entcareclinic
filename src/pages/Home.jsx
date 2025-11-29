@@ -17,17 +17,18 @@ export default function Home() {
     { href: '#contact', label: 'Contact' }
   ];
 
-  const services = [
-    { id: 1, title: "Otology / Neurotology", subtitle: "(Ear Services)", image: "/company data/ENT website/Otology.png" },
-    { id: 2, title: "Rhinology", subtitle: "(Nose & Sinus Services)", image: "/company data/ENT website/Rhinology.png" },
-    { id: 3, title: "Laryngology", subtitle: "(Throat & Voice Services)", image: "/company data/ENT website/Laryngology.png" },
-    { id: 4, title: "Sleep Medicine", subtitle: "", image: "/company data/ENT website/Otology.png" },
-    { id: 5, title: "Allergy Diagnosis & Immunotherapy", subtitle: "", image: "/company data/ENT website/Rhinology.png" },
-    { id: 6, title: "Vertigo", subtitle: "", image: "/company data/ENT website/Laryngology.png" },
-    { id: 7, title: "Audiology & Hearing Services", subtitle: "", image: "/company data/ENT website/Otology.png" },
-    { id: 8, title: "Pediatric ENT", subtitle: "", image: "/company data/ENT website/Rhinology.png" },
-    { id: 9, title: "Head & Neck Surgery", subtitle: "", image: "/company data/ENT website/Laryngology.png" }
-  ];
+  const  services = [
+  { id: 1, title: "Otology / Neurotology", subtitle: "(Ear Services)", image: "/company data/ENT website/Otology.png" },
+  { id: 2, title: "Rhinology", subtitle: "(Nose & Sinus Services)", image: "/company data/ENT website/Rhinology.png" },
+  { id: 3, title: "Laryngology", subtitle: "(Throat & Voice Services)", image: "/company data/ENT website/Laryngology.png" },
+  { id: 4, title: "Sleep Medicine", subtitle: "", image: "/company data/ENT website/Sleep Medicine.png" },
+  { id: 5, title: "Allergy Diagnosis & Immunotherapy", subtitle: "", image: "/company data/ENT website/Allergy Diagnosis.png" },
+  { id: 6, title: "Vertigo", subtitle: "", image: "/company data/ENT website/Vertigo.png" },
+  { id: 7, title: "Audiology & Hearing Services", subtitle: "", image: "/company data/ENT website/Audiology & Hearing Services.png" },
+  { id: 8, title: "Pediatric ENT", subtitle: "", image: "/company data/ENT website/Pediatric ENT.png" },
+  { id: 9, title: "Head & Neck Surgery", subtitle: "", image: "/company data/ENT website/Head & Neck Surgery.png" },
+];
+
 
   const [formData, setFormData] = useState({
     name: '',

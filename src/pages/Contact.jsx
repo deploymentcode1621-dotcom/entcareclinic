@@ -1,5 +1,5 @@
 import Header from "../components/Navbar";
-import ContactForm from "../components/ContactForm";
+import ContactForm from "../components/AppointmentForm";
 import Footer from "../components/Footer";
 
 const Contact = () => {
