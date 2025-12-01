@@ -36,26 +36,31 @@ export default function Footer({ handleBookAppointment }) {
           {/* Top Two Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-2 sm:px-6 lg:px-10 pt-4 mb-6">
             {/* Location */}
-            <div className="group bg-white/8 backdrop-blur-md rounded-xl p-4 sm:p-5 border border-white/20 shadow-md hover:bg-white/12 transform hover:-translate-y-1 transition-all duration-300 flex flex-col">
-              <h3 className="text-lg md:text-xl font-bold mb-3 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-                Our Location
-              </h3>
+          <div className="group bg-white/8 backdrop-blur-md rounded-xl p-4 sm:p-5 border border-white/20 shadow-md hover:bg-white/12 transform hover:-translate-y-1 transition-all duration-300 flex flex-col">
+  <h3 className="text-lg md:text-xl font-bold mb-3 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+    Our Location
+  </h3>
 
-              <p className="text-xs sm:text-sm md:text-base mb-3 text-blue-100 group-hover:text-white transition-colors leading-relaxed flex-grow">
-                No 701/702, 7th floor, WESTWOOD ESTATES,
-                <br />
-                Kaspate Wasti, Opposite Mont Vert Tropez Road,
-                <br />
-                Society, Wakod, Pimpri-Chinchwad, Maharashtra 411-057
-              </p>
+  <p className="text-xs sm:text-sm md:text-base mb-3 text-blue-100 group-hover:text-white transition-colors leading-relaxed flex-grow">
+    No 701/702, 7th floor, WESTWOOD ESTATES,
+    <br />
+    Kaspate Wasti, Opposite Mont Vert Tropez Road,
+    <br />
+    Society, Wakod, Pimpri-Chinchwad, Maharashtra 411-057
+    <br /><br />
+    <span className="font-semibold">Mobile:</span> 9175028730
+    <br />
+    <span className="font-semibold">Email:</span> entcareclinicpune717@gmail.com
+  </p>
 
-              <button className="w-auto self-start bg-gradient-to-r from-white to-blue-50 
-                text-blue-700 font-bold px-4 py-2 rounded-lg 
-                hover:from-blue-500 hover:to-blue-600 hover:text-white 
-                transition-all duration-300 text-xs sm:text-sm uppercase shadow-md hover:shadow-lg">
-                FIND OUR LOCATION
-              </button>
-            </div>
+  <button className="w-auto self-start bg-gradient-to-r from-white to-blue-50 
+    text-blue-700 font-bold px-4 py-2 rounded-lg 
+    hover:from-blue-500 hover:to-blue-600 hover:text-white 
+    transition-all duration-300 text-xs sm:text-sm uppercase shadow-md hover:shadow-lg">
+    FIND OUR LOCATION
+  </button>
+</div>
+
 
             {/* Appointment */}
             <div className="group bg-white/8 backdrop-blur-md rounded-xl p-4 sm:p-5 border border-white/20 shadow-md hover:bg-white/12 transform hover:-translate-y-1 transition-all duration-300 flex flex-col">
