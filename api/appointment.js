@@ -51,36 +51,38 @@
 //     });
 //   }
 // }
-import nodemailer from "nodemailer";
 import axios from "axios";
+import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Only POST allowed" });
   }
 
+  const { name, age, sex, phone, date, service } = req.body;
+
+  if (!name || !phone || !date || !service) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
   try {
-    const { name, age, sex, phone, date, service } = req.body;
-
-    if (!name || !phone || !date || !service) {
-      return res.status(400).json({ message: "Please fill all required fields" });
-    }
-
-    // 1️⃣ Email
+    // --------------------------------------------
+    // 1️⃣ SEND EMAIL TO ADMIN
+    // --------------------------------------------
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.ADMIN_EMAIL,
+        pass: process.env.ADMIN_PASS,
       },
     });
 
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      subject: "New Appointment Booking",
+      from: process.env.ADMIN_EMAIL,
+      to: process.env.ADMIN_EMAIL,
+      subject: "New Appointment Booked",
       html: `
-        <h2>New Appointment Details</h2>
+        <h2>New Appointment</h2>
         <p><b>Name:</b> ${name}</p>
         <p><b>Age:</b> ${age}</p>
         <p><b>Sex:</b> ${sex}</p>
@@ -90,35 +92,47 @@ export default async function handler(req, res) {
       `,
     });
 
-    // 2️⃣ SMS
+    // --------------------------------------------
+    // 2️⃣ SEND SMS TO ADMIN
+    // --------------------------------------------
+    const adminText = `New Appointment: ${name}, ${phone}, ${service}, ${date}`;
+
+    await axios.get("https://bhashsms.com/api/sendmsg.php", {
+      params: {
+        user: process.env.SMS_USER,
+        pass: process.env.SMS_PASS,
+        sender: process.env.SMS_SENDER,
+        phone: process.env.ADMIN_PHONE,
+        text: adminText,
+        priority: "ndnd",
+        stype: "normal",
+      },
+    });
+
+    // --------------------------------------------
+    // 3️⃣ SEND AUTO-SMS TO PATIENT
+    // --------------------------------------------
+    const patientText =
+      "Your appointment is booked successfully. Our executive will contact you soon.";
+
     await axios.get("https://bhashsms.com/api/sendmsg.php", {
       params: {
         user: process.env.SMS_USER,
         pass: process.env.SMS_PASS,
         sender: process.env.SMS_SENDER,
         phone,
-        text: `Dear ${name}, your appointment is booked for ${date} - ${service}.`,
+        text: patientText,
         priority: "ndnd",
         stype: "normal",
       },
     });
 
-    // 3️⃣ WhatsApp Free Click-to-Chat
-    const whatsappURL = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(
-      `Hello ${name}, your appointment for ${service} on ${date} is confirmed.`
-    )}`;
-
-    return res.status(200).json({
-      success: true,
-      message: "Email, SMS & WhatsApp Link Sent!",
-      whatsapp: whatsappURL,
-    });
-  } catch (error) {
-    console.error("API Error:", error.message);
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    console.error("API Error:", err.message);
     return res.status(500).json({
       success: false,
-      message: "Failed to send email/SMS/WhatsApp",
-      error: error.message,
+      message: "Failed to send Email/SMS",
     });
   }
 }

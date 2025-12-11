@@ -28,17 +28,12 @@
 // };
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "https://www.drswatientcare.in/api/appointment"
-});
-
-// Book Appointment
-export const bookAppointment = async (formData) => {
+export const bookAppointment = async (data) => {
   try {
-    const { data } = await API.post("", formData);
-    return data;
-  } catch (error) {
-    console.error("API Error:", error.response?.data || error.message);
-    throw error;
+    const res = await axios.post("/api/appointment", data);
+    return res.data;
+  } catch (err) {
+    console.error("API Error:", err);
+    throw err;
   }
 };
