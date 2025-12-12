@@ -66,9 +66,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    // --------------------------------------------
-    // 1️⃣ SEND EMAIL TO ADMIN
-    // --------------------------------------------
+    // Generate Visit ID
+    const visitId = "ENT" + Math.floor(100000 + Math.random() * 900000);
+
+    // -----------------------------------------------------
+    // 1️⃣ EMAIL TO ADMIN
+    // -----------------------------------------------------
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -89,50 +92,53 @@ export default async function handler(req, res) {
         <p><b>Phone:</b> ${phone}</p>
         <p><b>Date:</b> ${date}</p>
         <p><b>Service:</b> ${service}</p>
+        <p><b>Visit ID:</b> ${visitId}</p>
       `,
     });
 
-    // --------------------------------------------
-    // 2️⃣ SEND SMS TO ADMIN
-    // --------------------------------------------
-    const adminText = `New Appointment: ${name}, ${phone}, ${service}, ${date}`;
-
-    await axios.get("https://bhashsms.com/api/sendmsg.php", {
+    // -----------------------------------------------------
+    // 2️⃣ WHATSAPP MESSAGE TO ADMIN
+    // -----------------------------------------------------
+    await axios.get("http://bhashsms.com/api/sendmsg.php", {
       params: {
         user: process.env.SMS_USER,
         pass: process.env.SMS_PASS,
         sender: process.env.SMS_SENDER,
         phone: process.env.ADMIN_PHONE,
-        text: adminText,
-        priority: "ndnd",
+        text: `New Appointment: ${name}, ${phone}, ${service}, ${date}`,
+        priority: "wa",
         stype: "normal",
       },
     });
 
-    // --------------------------------------------
-    // 3️⃣ SEND AUTO-SMS TO PATIENT
-    // --------------------------------------------
-    const patientText =
-      "Your appointment is booked successfully. Our executive will contact you soon.";
-
-    await axios.get("https://bhashsms.com/api/sendmsg.php", {
+    // -----------------------------------------------------
+    // 3️⃣ WHATSAPP TEMPLATE MESSAGE TO PATIENT
+    // Template: entcare_9
+    // Params order: 11 = name , 22 = ENT Care Clinic , 33 = visitId
+    // -----------------------------------------------------
+    await axios.get("http://bhashsms.com/api/sendmsgutil.php", {
       params: {
         user: process.env.SMS_USER,
         pass: process.env.SMS_PASS,
         sender: process.env.SMS_SENDER,
         phone,
-        text: patientText,
-        priority: "ndnd",
+        text: "entcare_9",
+        priority: "wa",
         stype: "normal",
+        Params: `${name},ENT Care Clinic,${visitId}`,
       },
     });
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({
+      success: true,
+      visitId,
+      message: "Appointment booked successfully",
+    });
   } catch (err) {
     console.error("API Error:", err.message);
     return res.status(500).json({
       success: false,
-      message: "Failed to send Email/SMS",
+      message: "Failed to send Email/WhatsApp",
     });
   }
 }
