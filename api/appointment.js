@@ -93,6 +93,7 @@ export default async function handler(req, res) {
         <p><b>Date:</b> ${date}</p>
         <p><b>Service:</b> ${service}</p>
         <p><b>Visit ID:</b> ${visitId}</p>
+        
       `,
     });
 
