@@ -100,17 +100,21 @@ export default async function handler(req, res) {
     // -----------------------------------------------------
     // 2️⃣ WHATSAPP MESSAGE TO ADMIN
     // -----------------------------------------------------
-    await axios.get("http://bhashsms.com/api/sendmsg.php", {
-      params: {
-        user: process.env.SMS_USER,
-        pass: process.env.SMS_PASS,
-        sender: process.env.SMS_SENDER,
-        phone: process.env.ADMIN_PHONE,
-        text: `New Appointment: ${name}, ${phone}, ${service}, ${date}`,
-        priority: "wa",
-        stype: "normal",
-      },
-    });
+   await axios.get("http://bhashsms.com/api/sendmsgutil.php", {
+  params: {
+    user: process.env.SMS_USER,
+    pass: process.env.SMS_PASS,
+    sender: process.env.SMS_SENDER,
+    phone: phone,
+    text: "entcare_9",      // approved WhatsApp template name
+    priority: "wa",
+    stype: "normal",
+
+    // {{1}}, {{2}}, {{3}}, {{4}}
+    Params: `${name},${date},${service},ENT Care Clinic`,
+  },
+});
+
 
     // -----------------------------------------------------
     // 3️⃣ WHATSAPP TEMPLATE MESSAGE TO PATIENT
