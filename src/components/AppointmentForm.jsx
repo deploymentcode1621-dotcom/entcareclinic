@@ -288,6 +288,8 @@ export default function AppointmentPage() {
                   <option value="Nose">Nose</option>
                   <option value="Throat">Throat</option>
                   <option value="Vertigo">Vertigo</option>
+                  <option value="Audiology">Audiology</option>
+                  <option value="Allergy">Allergy</option>
                 </select>
                 {errors.service && <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.service}</p>}
               </div>
