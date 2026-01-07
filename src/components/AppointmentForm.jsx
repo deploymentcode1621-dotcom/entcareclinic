@@ -136,7 +136,7 @@ export default function AppointmentPage() {
             
             {/* Doctor Info */}
             <div className="text-center mt-5 hidden lg:block">
-              <h3 className="text-xl font-bold text-gray-800">Dr. Swati Kodur (Patil)</h3>
+              <h3 className="text-xl font-bold text-gray-800">Dr. Swati Kodur Patil</h3>
               <p className="text-purple-600 font-medium mt-1 text-sm">ENT Specialist</p>
               <p className="text-gray-600 text-xs mt-2 max-w-xs mx-auto">
                 Expert in Ear, Nose, Throat treatments with over 15 years of experience

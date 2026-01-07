@@ -174,8 +174,9 @@ export default function ENTHeroSection() {
                         <Heart className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-gray-900">24/7 Emergency Care</div>
-                        <div className="text-xs text-gray-500">Always here for you</div>
+                       <div className="text-sm font-bold text-gray-900">Expert Doctor Care</div>
+<div className="text-xs text-gray-500">Your health, our priority</div>
+
                       </div>
                     </div>
 
