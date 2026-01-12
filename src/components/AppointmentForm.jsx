@@ -9,6 +9,7 @@ export default function AppointmentPage() {
     sex: "",
     phone: "",
     date: "",
+      timeSlot: "",
     service: "",
   });
 
@@ -27,6 +28,8 @@ export default function AppointmentPage() {
       newErrors.phone = "Enter a valid 10-digit number";
     }
     if (!formData.date) newErrors.date = "Select appointment date";
+    if (!formData.timeSlot) newErrors.timeSlot = "Select time slot";
+
     if (!formData.service) newErrors.service = "Select service";
 
     setErrors(newErrors);
@@ -55,14 +58,16 @@ export default function AppointmentPage() {
     setIsSubmitting(true);
 
     // Prepare payload (avoid unnecessary object recreation)
-    const payload = {
-      name: formData.name.trim(),
-      age: formData.age,
-      sex: formData.sex,
-      phone: formData.phone.trim(),
-      date: formData.date,
-      service: formData.service,
-    };
+   const payload = {
+  name: formData.name.trim(),
+  age: formData.age,
+  sex: formData.sex,
+  phone: formData.phone.trim(),
+  date: formData.date,
+  timeSlot: formData.timeSlot,
+  service: formData.service,
+};
+
 
     try {
       // Send request immediately without any delays
@@ -76,13 +81,15 @@ export default function AppointmentPage() {
         setTimeout(() => {
           setIsSubmitted(false);
           setFormData({
-            name: "",
-            age: "",
-            sex: "",
-            phone: "",
-            date: "",
-            service: "",
-          });
+  name: "",
+  age: "",
+  sex: "",
+  phone: "",
+  date: "",
+  timeSlot: "",
+  service: "",
+});
+
           setErrors({});
         }, 2500);
       } else {
@@ -269,6 +276,37 @@ export default function AppointmentPage() {
                 />
                 {errors.date && <p className="mt-1 text-xs text-red-500 animate-pulse">{errors.date}</p>}
               </div>
+              {/* TIME SLOT */}
+<div>
+  <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
+    Time Slot <span className="text-red-500">*</span>
+  </label>
+
+  <select
+    name="timeSlot"
+    value={formData.timeSlot}
+    onChange={handleChange}
+    className={`w-full border-2 ${
+      errors.timeSlot ? "border-red-500" : "border-gray-300"
+    } rounded-lg px-3 py-2 sm:py-2.5 text-sm focus:outline-none focus:border-purple-500 transition-colors bg-white`}
+  >
+    <option value="">Select time slot</option>
+    <option value="09:00 AM - 09:30 AM">09:00 AM - 09:30 AM</option>
+    <option value="09:30 AM - 10:00 AM">09:30 AM - 10:00 AM</option>
+    <option value="10:00 AM - 10:30 AM">10:00 AM - 10:30 AM</option>
+    <option value="10:30 AM - 11:00 AM">10:30 AM - 11:00 AM</option>
+    <option value="11:00 AM - 11:30 AM">11:00 AM - 11:30 AM</option>
+    <option value="06:00 PM - 06:30 PM">06:00 PM - 06:30 PM</option>
+    <option value="06:30 PM - 07:00 PM">06:30 PM - 07:00 PM</option>
+  </select>
+
+  {errors.timeSlot && (
+    <p className="mt-1 text-xs text-red-500 animate-pulse">
+      {errors.timeSlot}
+    </p>
+  )}
+</div>
+
 
               {/* SERVICE */}
               <div>
