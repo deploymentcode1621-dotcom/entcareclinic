@@ -154,11 +154,11 @@ export default function Footer({ handleBookAppointment }) {
 
               <div className="space-y-0.5 text-sm lg:text-base">
                 {[
-                  ["Monday", "10.00am - 2.00pm\n6.00pm - 8.30pm"],
-                  ["Tuesday", "10.00am - 2.00pm\n6.00pm - 8.30pm"],
-                  ["Wednesday", "10.00am - 2.00pm\n6.00pm - 8.30pm"],
-                  ["Thursday", "10.00am - 2.00pm\n6.00pm - 8.30pm"],
-                  ["Friday", "10.00am - 2.00pm\n6.00pm - 8.30pm"],
+                  ["Monday", "10.00am - 2.00pm\n5.00pm - 8.00pm"],
+                  ["Tuesday", "10.00am - 2.00pm\n5.00pm - 8.00pm"],
+                  ["Wednesday", "10.00am - 2.00pm\n5.00pm - 8.00pm"],
+                  ["Thursday", "10.00am - 2.00pm\n5.00pm - 8.00pm"],
+                  ["Friday", "10.00am - 2.00pm\n5.00pm - 8.00pm"],
                   ["Saturday", "10.30am - 6.30pm"],
                   ["Sunday", "Closed"],
                 ].map(([day, hrs]) => (
